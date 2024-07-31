@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>body {
+        font-family: Arial, sans-serif;
+        background-color: aliceblue;
+    }
+    header{
+        text-align: center;
+    }
+    form {
+        max-width: 500px;
+        margin: auto;
+    }
+    
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+    
+    textarea, input {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    
+    button:hover {
+        background-color: #45a049;
+    }
+    
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+    
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+    .Report-container{
+    align-items: center;
+    max-width: 700px;
+    align-items: center;
+    height: auto;
+    background-color: antiquewhite;
+    padding: 20px;
+    margin: 100px auto;
+    }
+    .Photo-container{
+        align-items: center;
+    max-width: 700px;
+    align-items: center;
+    height: auto;
+    background-color: antiquewhite;
+    padding: 10px 15px;
+    margin: 10px auto;
+    display:none;
+    border:none;
+    border-radius: 4px;
+    cursor:pointer;
+    }
+    </style>
+    <title>Complaint Page - Anonymous Crime Complaint System for Youngsters</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=places" defer></script>
+</head>
+<body>
+    <header><h1>Complaint Page</h1></header>
+    <div class="Report-container">
+    <form id="crimeForm" action="/submit" method="post">
+        <label for="description">Description:</label>
+        <textarea name="description" required></textarea>
+
+        <label for="location">Location:</label>
+        <input type="text" id="locationInput" name="location" readonly required>
+
+        <label for="photo_path" id="photo_path">Photo:</label>
+        <div class="Photo-container"></div>
+        <input type="file" id="photoInput" accept="image/*" capture="environment" name="photo_path" style="display: none;">
+        <canvas id="photoCanvas" style="max-width: 100%; max-height: 200px; margin-top: 10px; display: none;"></canvas>
+        <input type="hidden" id="photoDataInput" name="photo_data"> 
+
+        <button type="button" id="openCamera">Open Camera</button>
+        <button type="submit">Submit</button>
+    </form>
+</div>
+</div>
+    <script>
+        // Get location using HTML5 Geolocation API
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function showPosition(position) {
+            const locationInput = document.getElementById('locationInput');
+            locationInput.value = `Lat: ${position.coords.latitude}, Lon: ${position.coords.longitude}`;
+        }
+
+        // Automatically get location on page load
+        window.onload = function () {
+            getLocation();
+        };
+
+        // Handle camera button click
+        const openCameraButton = document.getElementById('openCamera');
+    const photoInput = document.getElementById('photoInput');
+    const photoCanvas = document.getElementById('photoCanvas');
+    const photoDataInput = document.getElementById('photoDataInput');
+
+    openCameraButton.addEventListener('click', function () {
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(function (stream) {
+                // Show the video stream in a hidden video element
+                const video = document.createElement('video');
+                video.srcObject = stream;
+                video.play();
+                document.body.appendChild(video);
+
+                // Allow the user to take a snapshot
+                openCameraButton.style.display = 'none';
+                photoInput.style.display = 'none';
+                photoCanvas.style.display = 'block';
+
+                const context = photoCanvas.getContext('2d');
+                context.drawImage(video, 0, 0, photoCanvas.width, photoCanvas.height);
+
+                // Add a button to capture the photo
+                const captureButton = document.createElement('button');
+                captureButton.innerText = 'Capture Photo';
+                captureButton.addEventListener('click', function () {
+                    // Draw the current video frame onto the canvas
+                    context.drawImage(video, 0, 0, photoCanvas.width, photoCanvas.height);
+
+                    // Stop the video stream
+                    stream.getTracks().forEach(track => track.stop());
+
+                    // Remove the video element
+                    video.remove();
+
+                    // Convert the canvas content to base64 and update the hidden input
+                    const imageData = photoCanvas.toDataURL('image/png');
+                    photoDataInput.value = imageData;
+
+                    // Show the photo canvas and hide the input
+                    openCameraButton.style.display = 'block';
+                    photoInput.style.display = 'none';
+                });
+                document.body.appendChild(captureButton);
+            })
+            .catch(function (error) {
+                console.error('Error accessing camera:', error);
+            });
+    });
+    </script>
+</body>
+</html>

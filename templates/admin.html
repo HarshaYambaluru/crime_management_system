@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>body {
+        font-family: Arial, sans-serif;
+        background-color: aliceblue;
+    }
+    
+    form {
+        max-width: 500px;
+        margin: auto;
+    }
+    
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+    
+    textarea, input {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    
+    button:hover {
+        background-color: #45a049;
+    }
+    
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+    
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+    
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+    </style>
+    <title>Crime Report Page - Anonymous Crime Complaint System for Youngsters</title>
+</head>
+<body>
+    <center><h1>Crime Report Page</h1></center>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Description</th>
+            <th>Location</th>
+            <th>Photo</th>
+            <th>Status</th>
+        </tr>
+        {% for crime in crimes %}
+            <tr>
+                <td>{{ crime[0] }}</td>
+                <td>{{ crime[1] }}</td>
+                <td>{{ crime[2] }}</td>
+                <td><img src="{{ crime[3] }}" alt="Crime Photo" style="max-width: 100px;"></td>
+                <td>{{ crime[4] }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

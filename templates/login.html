@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .form-switch {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .form-switch a {
+            cursor: pointer;
+            color: #007bff;
+            text-decoration: none;
+        }
+    </style>
+    <title>Login - Anonymous Crime Complaint System for Youngsters</title>
+</head>
+<body>
+    <form id="loginForm" action="/admin"> 
+        <h1>Police Login</h1>
+        <label for="loginUsername">Username:</label>
+        <input type="text" id="loginUsername" name="loginUsername" required>
+
+        <label for="loginPassword">Password:</label>
+        <input type="password" id="loginPassword" name="loginPassword" required>
+
+        <button type="submit">Login</button>
+
+        <div class="form-switch">
+            <p><a href="/fp">Forgot Password?</a></p>
+            <p>Don't have an account? <a href="/signup">Sign Up</a></p>
+        </div>
+    </form>    
+</body>
+</html>
